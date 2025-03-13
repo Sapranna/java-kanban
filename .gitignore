@@ -1,3 +1,8 @@
+# iml files
+/src/out/production/java-kanban.iml
+java-kanban.iml
+
+
 # Compiled class file
 *.class
 
