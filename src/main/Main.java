@@ -1,7 +1,7 @@
 public class Main {
 
     public static void main(String[] args) {
-        TaskManager manager = new TaskManager();
+        TaskManager manager = Managers.getDefault();
 
         //добавление 2х тасок
         Task task1 = new Task("Task1", "desc task1", TaskStatus.NEW);
@@ -23,9 +23,7 @@ public class Main {
         Subtask subtask3 = new Subtask("Subtask3", "desc subtask3", TaskStatus.NEW, epic2.getId());
         manager.addSubtask(subtask3);
 
-        System.out.println("Задачи: " + manager.getTasks().values());
-        System.out.println("Подзадачи: " + manager.getSubtasks().values());
-        System.out.println("Эпики: " + manager.getEpics().values());
+        printAllTasks(manager);
 
         //обновление подзадачи
         Subtask subtask4 = new Subtask("SubtaskNew", "desc subtaskNew", TaskStatus.IN_PROGRESS, epic1.getId());
@@ -33,9 +31,14 @@ public class Main {
         manager.updateSubtask(subtask4);
 
         //обновление эпика
-        Epic epic3 = new Epic("EpicNew", "new desc epic", TaskStatus.IN_PROGRESS, epic1.getSubtasksId());
+        Epic epic3 = new Epic("EpicNew", "new desc epic", TaskStatus.DONE, epic1.getSubtasksId());
         epic3.setId(epic1.getId());
         manager.updateEpic(epic3);
+
+        //обновление эпика
+        Epic epic33 = new Epic("EpicNew", "new desc epic", TaskStatus.NEW, epic1.getSubtasksId());
+        epic33.setId(epic1.getId());
+        manager.updateEpic(epic33);
 
         //обновление задачи
         Task task3 = new Task("TaskNew", "new desc task", TaskStatus.DONE);
@@ -51,10 +54,16 @@ public class Main {
         //удаление подзадачи
         manager.removeSubtask(subtask3.getId());
 
-        System.out.println("-".repeat(50));
-        System.out.println("Задачи: " + manager.getTasks().values());
-        System.out.println("Подзадачи: " + manager.getSubtasks().values());
-        System.out.println("Эпики: " + manager.getEpics().values());
-
+        printAllTasks(manager);
     }
+
+    private static void printAllTasks(TaskManager taskManager) {
+        System.out.println("-".repeat(50));
+        System.out.println("Задачи: " + taskManager.getTasks().values());
+        System.out.println("Подзадачи: " + taskManager.getSubtasks().values());
+        System.out.println("Эпики: " + taskManager.getEpics().values());
+        System.out.println("История просмотров: " + taskManager.getHistory());
+        System.out.println("-".repeat(50));
+    }
+
 }
